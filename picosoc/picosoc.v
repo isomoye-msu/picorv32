@@ -17,10 +17,6 @@
  *
  */
 
-`ifndef PICORV32_REGS
-`ifdef PICORV32_V
-`error "picosoc.v must be read before picorv32.v!"
-`endif
 
 `define PICORV32_REGS picosoc_regs
 `endif
@@ -131,19 +127,7 @@ module picosoc (
 			spimemio_cfgreg_sel ? spimemio_cfgreg_do : simpleuart_reg_div_sel ? simpleuart_reg_div_do :
 			simpleuart_reg_dat_sel ? simpleuart_reg_dat_do : 32'h 0000_0000;
 
-	picorv32 #(
-		.STACKADDR(STACKADDR),
-		.PROGADDR_RESET(PROGADDR_RESET),
-		.PROGADDR_IRQ(PROGADDR_IRQ),
-		.BARREL_SHIFTER(BARREL_SHIFTER),
-		.COMPRESSED_ISA(ENABLE_COMPRESSED),
-		.ENABLE_COUNTERS(ENABLE_COUNTERS),
-		.ENABLE_MUL(ENABLE_MUL),
-		.ENABLE_DIV(ENABLE_DIV),
-		.ENABLE_FAST_MUL(ENABLE_FAST_MUL),
-		.ENABLE_IRQ(1),
-		.ENABLE_IRQ_QREGS(ENABLE_IRQ_QREGS)
-	) cpu (
+	picorv32_netlist cpu (
 		.clk         (clk        ),
 		.resetn      (resetn     ),
 		.mem_valid   (mem_valid  ),
